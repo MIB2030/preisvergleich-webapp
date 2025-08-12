@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Preisvergleich für "{{ query }}"</h2>
+  {% if results %}
+  <table>
+    <thead>
+      <tr>
+        <th>Anbieter</th>
+        <th>Artikelnummer</th>
+        <th>Farbe</th>
+        <th>Preis</th>
+        <th>Versand</th>
+        <th>Gesamt</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in results %}
+      <tr>
+        <td>{{ item.supplier }}</td>
+        <td>{{ item.article }}</td>
+        <td>{{ item.color }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.shipping }}</td>
+        <td>{{ item.total }}</td>
+        <td>
+          <form method="post" action="{{ url_for('add_to_cart') }}">
+            <input type="hidden" name="supplier" value="{{ item.supplier }}">
+            <input type="hidden" name="article" value="{{ item.article }}">
+            <input type="hidden" name="color" value="{{ item.color }}">
+            <input type="hidden" name="price" value="{{ item.total }}">
+            <button type="submit">In den Warenkorb</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>Keine Ergebnisse gefunden.</p>
+  {% endif %}
+{% endblock %}
