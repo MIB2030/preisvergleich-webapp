@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Produktsuche</h2>
+  <form method="post" action="{{ url_for('results') }}">
+    <label for="query">Modell:</label>
+    <input type="text" id="query" name="query" required>
+    <button type="submit">Suchen</button>
+  </form>
+{% endblock %}
