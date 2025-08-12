@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Warenkorb</h2>
+
+{% if cart %}
+<table>
+  <tr>
+    <th>Anbieter</th>
+    <th>Artikelnummer</th>
+    <th>Farbe</th>
+    <th>Preis (€)</th>
+    <th>Versand (€)</th>
+    <th>Gesamt (€)</th>
+    <th>Aktion</th>
+  </tr>
+  {% for item in cart %}
+  <tr>
+    <td>{{ item.provider }}</td>
+    <td>{{ item.article_number }}</td>
+    <td>{{ item.color }}</td>
+    <td>{{ item.price }}</td>
+    <td>{{ item.shipping }}</td>
+    <td>{{ item.price + item.shipping }}</td>
+    <td>
+      <form action="{{ url_for('cart') }}" method="post">
+        <input type="hidden" name="index" value="{{ loop.index0 }}">
+        <button type="submit">Entfernen</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<p><strong>Gesamtbetrag: {{ calculate_total(cart) }}</strong></p>
+{% else %}
+<p>Dein Warenkorb ist leer.</p>
+{% endif %}
+
+<a href="{{ url_for('index') }}">Weiter einkaufen</a>
+
+{% endblock %}
